@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import './App.css';
+import '../App.css';
 
 //useState example
-function App() {
+export function App() {
   const [counter, setCounter] = useState(0)
 
   function increment() {
@@ -22,4 +22,3 @@ function App() {
   );
 }
 
-export default App;
