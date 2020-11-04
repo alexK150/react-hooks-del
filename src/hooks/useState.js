@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import '../App.css';
 
 //useState example
-export function App() {
+function App() {
   const [counter, setCounter] = useState(0)
 
   function increment() {
@@ -21,4 +21,3 @@ export function App() {
     </div>
   );
 }
-
