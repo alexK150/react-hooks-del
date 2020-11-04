@@ -1,31 +1,37 @@
-import React from 'react';
+import React, {useState} from 'react';
+import './App.css';
 
-const App = () => {
-  const [value, setValue] = React.useState('initial')
-  const renderCount = React.useRef(1)
-  const inputRef = React.useRef(null)
-  const prevState = React.useRef('')
+function complexCompute(num) {
+  console.log('Computed')
+  let i = 0
+  while (i < 1000000000) i++
+  return num * 2
+}
+
+function App() {
+  const [number, setNumber] = useState(42)
+  const [color, setColor] = useState(false)
+
+  const style = React.useMemo(() => ({
+    color: color ? 'blue' : 'black'
+  }), [color])
+
+  const computed = React.useMemo(() => {
+    return complexCompute(number)
+  }, [number])
 
   React.useEffect(() => {
-    renderCount.current++
-    //inputRef.current - в нем обычный элемент ДОМ, у которого есть свойство value
-    console.log(inputRef.current.value)
-  })
-
-  React.useEffect(() => {
-    prevState.current = value
-  }, [value])
-
-  const focus = () => inputRef.current.focus()
+    console.log('Styles changed')
+  }, [style])
 
   return (
-    <div>
-      <h1>Количество рендеров: {renderCount.current}</h1>
-      <h2>Предыдущее состояние: {prevState.current}</h2>
-      <input ref={inputRef} type="text" onChange={e => setValue(e.target.value)} value={value}/>
-      <button className={'btn btn-success'} onClick={focus}>Focus</button>
-    </div>
+    <>
+      <h2 style={style}>Вычисляемое свойство: {computed}</h2>
+      <button onClick={() => setNumber(prevValue => prevValue + 1)} className={'btn btn-success'}>Добавить</button>
+      <button onClick={() => setNumber(prevValue => prevValue + 1)} className={'btn btn-danger'}>Убрать</button>
+      <button onClick={() => setColor(prevValue => !prevValue)} className={'btn btn-warning'}>Изменить</button>
+    </>
   );
-};
+}
 
 export default App;
